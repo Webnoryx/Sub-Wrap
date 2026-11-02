@@ -117,6 +117,11 @@ h2{font-size:clamp(2.2rem,5vw,4rem);margin-bottom:18px}
 footer{padding:50px 0 70px;text-align:center;color:var(--muted);font-size:.9rem}
 @media (max-width:860px){.links{display:none}.hero .wrap,.build .wrap,.find{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.stage{order:-1;margin-top:20px}.badge{width:90px;height:90px;font-size:.75rem}.stats{gap:24px}.build{border-radius:28px;margin:0 8px}}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important;transition:none!important}}
+.ordw.show{max-height:190px}
+.ord.sending{opacity:.7;pointer-events:none}
+.ord.sent{background:linear-gradient(120deg,#2fbf6a,#7ee2a8)!important;color:#fff!important}
+#orderMsg.ok{color:#7ee2a8}
+#orderMsg.err{color:#ff8a7a}
 </style>
 </head>
 <body>
@@ -158,7 +163,10 @@ footer{padding:50px 0 70px;text-align:center;color:var(--muted);font-size:.9rem}
       <div class="chips" id="chips"></div>
       <p style="opacity:.7;font-size:.9rem">Your sub</p>
       <div class="price" id="price">€3.50</div>
-      <div class="ordw" id="ordw"><button type="button" class="btn ord">Order now ✦</button></div>
+      <div class="ordw" id="ordw">
+  <button type="button" class="btn ord" id="orderBtn">Order now ✦</button>
+  <p id="orderMsg" style="margin-top:12px;font-size:.9rem;opacity:0;transition:opacity .3s"></p>
+</div>
       <p class="hint" id="hint"></p>
     </div>
     <div class="stack" id="buildStack"></div>
@@ -247,6 +255,70 @@ document.querySelectorAll('[data-to]').forEach(el=>{const to=+el.dataset.to;let 
 // nav + parallax
 const nav=document.getElementById('nav');addEventListener('scroll',()=>nav.classList.toggle('s',scrollY>40),{passive:true});
 document.querySelector('.hero').addEventListener('mousemove',e=>{const x=(e.clientX/innerWidth-.5),y=(e.clientY/innerHeight-.5);document.querySelectorAll('.bit').forEach(b=>{const d=+b.dataset.d;b.style.transform=`translate(${x*d}px,${y*d}px)`})});
+// ===== Discord Order Webhook =====
+const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1566950024125087755/vdnPypMFWxpgatqO6vuUrhTCfvEL47m7ZePMTxqhB3whEcr1KgsJd083qKs2TcftcL4A";
+
+const orderBtn = document.getElementById('orderBtn');
+const orderMsg = document.getElementById('orderMsg');
+
+orderBtn.addEventListener('click', async () => {
+  if (orderBtn.classList.contains('sending')) return;
+
+  const items = order.filter(k => on.includes(k)).map(k => NAMES[k]);
+  const total = (3.5 + 0.4 * on.length).toFixed(2);
+
+  orderBtn.classList.add('sending');
+  orderBtn.textContent = 'Sending… ✦';
+  orderMsg.style.opacity = 0;
+
+  const payload = {
+    username: "Sub Wrap 🥪",
+    avatar_url: "https://cdn-icons-png.flaticon.com/512/3014/3014521.png",
+    embeds: [{
+      title: "🥪 New Sub Order!",
+      description: "A hungry customer just stacked their dream sub.",
+      color: 0xffc72c,
+      fields: [
+        { name: "🧾 Ingredients", value: items.length ? items.map(i => `• ${i}`).join("\n") : "—", inline: true },
+        { name: "💰 Total", value: `**€${total}**`, inline: true },
+        { name: "📊 Toppings", value: `${on.length} / ${order.length}`, inline: true }
+      ],
+      footer: { text: "Sub Wrap · Podgorica" },
+      timestamp: new Date().toISOString()
+    }]
+  };
+
+  try {
+    const res = await fetch(DISCORD_WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) throw new Error("HTTP " + res.status);
+
+    orderBtn.classList.remove('sending');
+    orderBtn.classList.add('sent');
+    orderBtn.textContent = 'Order sent! ✓';
+    orderMsg.textContent = "Your sub is on its way to the kitchen 🥪";
+    orderMsg.className = "ok";
+    orderMsg.style.opacity = 1;
+
+    setTimeout(() => {
+      orderBtn.classList.remove('sent');
+      orderBtn.textContent = 'Order now ✦';
+      orderMsg.style.opacity = 0;
+    }, 4000);
+
+  } catch (err) {
+    console.error(err);
+    orderBtn.classList.remove('sending');
+    orderBtn.textContent = 'Order now ✦';
+    orderMsg.textContent = "Couldn’t send order. Please try again.";
+    orderMsg.className = "err";
+    orderMsg.style.opacity = 1;
+  }
+});
 </script>
 </body>
 </html>
