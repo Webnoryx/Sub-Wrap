@@ -122,6 +122,37 @@ footer{padding:50px 0 70px;text-align:center;color:var(--muted);font-size:.9rem}
 .ord.sent{background:linear-gradient(120deg,#2fbf6a,#7ee2a8)!important;color:#fff!important}
 #orderMsg.ok{color:#7ee2a8}
 #orderMsg.err{color:#ff8a7a}
+.ck{position:fixed;inset:0;z-index:90;display:flex;overflow:auto;background:radial-gradient(circle at 50% 40%,#14573a,#07170f 72%);color:#f6f0dc;padding:calc(env(safe-area-inset-top,0px) + 70px) 24px calc(env(safe-area-inset-bottom,0px) + 30px);visibility:hidden;opacity:0;clip-path:circle(0% at 50% 100%);transition:clip-path .9s cubic-bezier(.76,0,.24,1),opacity .3s .6s,visibility 0s .9s}
+.ck.open{visibility:visible;opacity:1;clip-path:circle(150% at 50% 100%);transition:clip-path .9s cubic-bezier(.76,0,.24,1),opacity .2s,visibility 0s}
+.raysw{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+.rays{position:absolute;left:50%;top:38%;width:1400px;height:1400px;margin:-700px 0 0 -700px;background:repeating-conic-gradient(from 0deg,rgba(255,199,44,.24) 0 7deg,transparent 7deg 20deg);-webkit-mask:radial-gradient(circle,#000 5%,transparent 62%);mask:radial-gradient(circle,#000 5%,transparent 62%);animation:spin 40s linear infinite}
+.x{position:fixed;top:calc(env(safe-area-inset-top,0px) + 16px);right:20px;z-index:5;width:46px;height:46px;border-radius:50%;border:1px solid rgba(246,240,220,.3);background:rgba(0,0,0,.2);color:#f6f0dc;font-size:1.6rem;line-height:1;cursor:pointer;transition:.3s}
+.x:hover{transform:rotate(90deg);border-color:var(--yellow)}
+.ckin{position:relative;z-index:2;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;max-width:1000px;width:100%}
+.ckstage{position:relative;display:grid;place-items:center;min-height:300px}
+.ckstage:before{content:'';position:absolute;width:85%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,199,44,.5),transparent 65%);animation:glw 3s ease-in-out infinite}
+@keyframes glw{50%{transform:scale(1.25);opacity:.7}}
+.ckstage .stack{width:min(100%,430px);transform:rotate(-4deg)}
+.ck.open .ckstage .stack{animation:float 5s ease-in-out 2.4s infinite}
+.ck .l svg{opacity:0}
+.ck.open .l svg{animation:drop 1.1s cubic-bezier(.3,1.3,.5,1) both;animation-delay:calc(.7s + var(--i)*.14s)}
+#sparks{position:absolute;inset:0;pointer-events:none;z-index:3}
+.sp{position:absolute;bottom:8%;background:var(--yellow);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);opacity:0;animation:rise 4s linear infinite}
+@keyframes rise{0%{transform:translateY(0) scale(.4);opacity:0}15%{opacity:1}100%{transform:translateY(-380px) scale(1.2) rotate(180deg);opacity:0}}
+.ck.open .ckform{animation:up .8s 1.6s both}
+.ckform:not(.x){opacity:0}
+.ckform h2{font-size:clamp(2rem,4.5vw,3.2rem);margin-bottom:10px;background:linear-gradient(100deg,#ffc72c,#fff3b0,#ffc72c);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh2 3s linear infinite}
+@keyframes sh2{to{background-position:-200% 0}}
+.ckp{opacity:.8;margin-bottom:22px}
+.ckform input{display:block;width:100%;padding:16px 20px;border-radius:16px;border:1.5px solid rgba(246,240,220,.3);background:rgba(255,255,255,.07);color:inherit;font:500 1rem var(--sans);margin-bottom:14px;outline:0;transition:border-color .25s,box-shadow .25s}
+.ckform input::placeholder{color:rgba(246,240,220,.5)}
+.ckform input:focus{border-color:var(--yellow);box-shadow:0 0 0 4px rgba(255,199,44,.2)}
+.ckform input.bad{border-color:#ff8a7a;animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.ckform .ord{width:100%;justify-content:center;margin-top:6px;animation:glow 2s infinite}
+.cf{position:fixed;left:50%;top:45%;width:10px;height:14px;z-index:95;pointer-events:none;animation:burst 1.8s cubic-bezier(.1,.8,.3,1) forwards}
+@keyframes burst{to{transform:translate(var(--x),var(--y)) rotate(var(--rot));opacity:0}}
+@media (max-width:860px){.ckin{grid-template-columns:1fr;gap:10px}.ckstage{min-height:0}.ckstage .stack{width:min(68%,290px)}}
 </style>
 </head>
 <body>
@@ -164,8 +195,7 @@ footer{padding:50px 0 70px;text-align:center;color:var(--muted);font-size:.9rem}
       <p style="opacity:.7;font-size:.9rem">Your sub</p>
       <div class="price" id="price">€3.50</div>
       <div class="ordw" id="ordw">
-  <button type="button" class="btn ord" id="orderBtn">Order now ✦</button>
-  <p id="orderMsg" style="margin-top:12px;font-size:.9rem;opacity:0;transition:opacity .3s"></p>
+  <button type="button" class="btn ord" id="openCk">Order now ✦</button>
 </div>
       <p class="hint" id="hint"></p>
     </div>
@@ -204,6 +234,23 @@ footer{padding:50px 0 70px;text-align:center;color:var(--muted);font-size:.9rem}
 
 <footer>© 2026 Sub Wrap · Podgorica, Montenegro · Fresh. Stacked. Yours.</footer>
 
+<div class="ck" id="ck" aria-hidden="true" role="dialog" aria-label="Complete your order">
+  <div class="raysw"><div class="rays"></div></div>
+  <button type="button" class="x" id="ckClose" aria-label="Close">×</button>
+  <div class="ckin">
+    <div class="ckstage"><div class="stack" id="ckStack"></div><div class="plate"></div><div id="sparks"></div></div>
+    <div class="ckform">
+      <p class="kick" style="color:var(--yellow)">Last step</p>
+      <h2>Your legendary sub</h2>
+      <p class="ckp" id="ckSum"></p>
+      <input id="cName" type="text" placeholder="Your name" autocomplete="name" maxlength="40">
+      <input id="cPhone" type="tel" placeholder="Phone number" autocomplete="tel" maxlength="20">
+      <button type="button" class="btn ord" id="orderBtn">Done ✓</button>
+      <p id="orderMsg" style="margin-top:14px;font-size:.95rem;opacity:0;transition:opacity .3s"></p>
+    </div>
+  </div>
+</div>
+
 <script>
 const rep=(s,n)=>s.repeat(n);
 const SVG={
@@ -232,12 +279,12 @@ const words=['Fresh Baked','Made to Order','Subs','Wraps','Crunchy Veggies','Big
 document.getElementById('mq').innerHTML=rep(words.map(w=>`<span>${w}</span><span>✦</span>`).join(''),2);
 // builder
 const bs=document.getElementById('buildStack'),chips=document.getElementById('chips'),pr=document.getElementById('price');
-let on=['lettuce','tomato','cheese'];const order=Object.keys(NAMES);
+let on=['lettuce','tomato','cheese'];let touched=false;const order=Object.keys(NAMES);
 function draw(f){const keys=order.filter(k=>on.includes(k));bs.innerHTML=mk(keys,{fresh:f||'__none'});pr.textContent='€'+(3.5+.4*on.length).toFixed(2);
- const all=on.length===order.length;document.getElementById('ordw').classList.toggle('show',all);document.getElementById('hint').textContent=all?'Fully loaded — the ultimate stack!':`Add all ${order.length} ingredients to unlock · ${on.length}/${order.length}`;
+ const go=touched&&on.length>0;document.getElementById('ordw').classList.toggle('show',go);document.getElementById('hint').textContent=go?`${on.length} ingredient${on.length>1?'s':''} · ready when you are`:'Tap an ingredient to start building';
  chips.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed',on.includes(b.dataset.k)))}
 chips.innerHTML=order.map(k=>`<button class="chip" data-k="${k}">${NAMES[k]}</button>`).join('');
-chips.onclick=e=>{const k=e.target.dataset.k;if(!k)return;const add=!on.includes(k);on=add?[...on,k]:on.filter(x=>x!==k);draw(add?k:null)};
+chips.onclick=e=>{const k=e.target.dataset.k;if(!k)return;touched=true;const add=!on.includes(k);on=add?[...on,k]:on.filter(x=>x!==k);draw(add?k:null)};
 const bio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){draw('lettuce');draw('__none');bio.disconnect();bs.innerHTML=mk(order.filter(k=>on.includes(k)));}}),{threshold:.3});
 draw();bio.observe(bs);
 // menu
@@ -262,7 +309,18 @@ const orderBtn = document.getElementById('orderBtn');
 const orderMsg = document.getElementById('orderMsg');
 
 orderBtn.addEventListener('click', async () => {
-  if (orderBtn.classList.contains('sending')) return;
+  if (orderBtn.classList.contains('sending') || orderBtn.classList.contains('sent')) return;
+  const name = cName.value.trim(), phone = cPhone.value.trim();
+  [cName, cPhone].forEach(i => i.classList.remove('bad'));
+  const bad = [];
+  if (name.length < 2) bad.push(cName);
+  if (!/^\+?[0-9 ()-]{6,20}$/.test(phone)) bad.push(cPhone);
+  if (bad.length) {
+    bad.forEach(i => { void i.offsetWidth; i.classList.add('bad'); });
+    orderMsg.textContent = "Please enter your name and a valid phone number.";
+    orderMsg.className = "err"; orderMsg.style.opacity = 1;
+    return;
+  }
 
   const items = order.filter(k => on.includes(k)).map(k => NAMES[k]);
   const total = (3.5 + 0.4 * on.length).toFixed(2);
@@ -274,11 +332,14 @@ orderBtn.addEventListener('click', async () => {
   const payload = {
     username: "Sub Wrap 🥪",
     avatar_url: "https://cdn-icons-png.flaticon.com/512/3014/3014521.png",
+    allowed_mentions: { parse: [] },
     embeds: [{
       title: "🥪 New Sub Order!",
       description: "A hungry customer just stacked their dream sub.",
       color: 0xffc72c,
       fields: [
+        { name: "👤 Customer", value: name, inline: true },
+        { name: "📞 Phone", value: phone, inline: true },
         { name: "🧾 Ingredients", value: items.length ? items.map(i => `• ${i}`).join("\n") : "—", inline: true },
         { name: "💰 Total", value: `**€${total}**`, inline: true },
         { name: "📊 Toppings", value: `${on.length} / ${order.length}`, inline: true }
@@ -300,25 +361,52 @@ orderBtn.addEventListener('click', async () => {
     orderBtn.classList.remove('sending');
     orderBtn.classList.add('sent');
     orderBtn.textContent = 'Order sent! ✓';
-    orderMsg.textContent = "Your sub is on its way to the kitchen 🥪";
+    confetti();
+    orderMsg.textContent = "Thank you, " + name + "! Your sub is on its way to the kitchen 🥪";
     orderMsg.className = "ok";
     orderMsg.style.opacity = 1;
 
     setTimeout(() => {
       orderBtn.classList.remove('sent');
-      orderBtn.textContent = 'Order now ✦';
+      orderBtn.textContent = 'Done ✓';
       orderMsg.style.opacity = 0;
+      closeCk(); cName.value = ''; cPhone.value = '';
     }, 4000);
 
   } catch (err) {
     console.error(err);
     orderBtn.classList.remove('sending');
-    orderBtn.textContent = 'Order now ✦';
+    orderBtn.textContent = 'Done ✓';
     orderMsg.textContent = "Couldn’t send order. Please try again.";
     orderMsg.className = "err";
     orderMsg.style.opacity = 1;
   }
 });
+
+// ===== Checkout screen =====
+const ck = document.getElementById('ck'), cName = document.getElementById('cName'), cPhone = document.getElementById('cPhone');
+document.getElementById('sparks').innerHTML = Array.from({length: 24}, () => {const s = 6 + Math.random() * 9 | 0;return `<i class="sp" style="left:${Math.random() * 100}%;width:${s}px;height:${s}px;animation-delay:${(Math.random() * 4).toFixed(2)}s;animation-duration:${(3 + Math.random() * 3).toFixed(1)}s"></i>`}).join('');
+function openCk() {
+  const keys = order.filter(k => on.includes(k));
+  if (!keys.length) return;
+  document.getElementById('ckStack').innerHTML = mk(keys);
+  document.getElementById('ckSum').textContent = keys.map(k => NAMES[k]).join(' · ') + ' — €' + (3.5 + .4 * keys.length).toFixed(2);
+  ck.classList.add('open'); ck.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
+  setTimeout(() => cName.focus({preventScroll: true}), 1800);
+}
+function closeCk() {ck.classList.remove('open'); ck.setAttribute('aria-hidden', 'true'); document.body.style.overflow = '';}
+function confetti() {
+  const cols = ['#ffc72c', '#2fbf6a', '#e5412d', '#fff3d0', '#c477c4'];
+  for (let i = 0; i < 48; i++) {
+    const e = document.createElement('i'); e.className = 'cf';
+    const a = Math.random() * 6.28, d = 140 + Math.random() * 320;
+    e.style.cssText = `--x:${Math.cos(a) * d | 0}px;--y:${Math.sin(a) * d - 80 | 0}px;--rot:${Math.random() * 720 | 0}deg;background:${cols[i % 5]}`;
+    document.body.appendChild(e); setTimeout(() => e.remove(), 1900);
+  }
+}
+document.getElementById('openCk').onclick = openCk;
+document.getElementById('ckClose').onclick = closeCk;
+addEventListener('keydown', e => {if (e.key === 'Escape') closeCk();});
 </script>
 </body>
 </html>
