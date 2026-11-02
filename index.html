@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sub Wrap — Fresh Subs &amp; Wraps · Podgorica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf5e6;--ink:#10301e;--muted:#566a5c;--card:#fff;--green:#0e6b39;--deep:#0a4a28;--yellow:#ffc72c;--line:rgba(16,48,30,.12);
+--serif:'Fraunces',Georgia,serif;--sans:'Outfit',system-ui,-apple-system,'Segoe UI',sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1810;--ink:#f6f0dc;--muted:#a7b9ad;--card:#12281b;--line:rgba(246,240,220,.14)}}
+:root[data-theme="dark"]{--bg:#0a1810;--ink:#f6f0dc;--muted:#a7b9ad;--card:#12281b;--line:rgba(246,240,220,.14)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:auto;padding:0 24px}
+h1,h2,h3{font-family:var(--serif);line-height:1.05;letter-spacing:-.02em}
+/* curtain */
+#curtain{position:fixed;inset:0;z-index:100;background:var(--deep);display:grid;place-items:center;animation:lift .9s cubic-bezier(.76,0,.24,1) 1.3s forwards}
+#curtain b{font:900 clamp(2.4rem,8vw,5rem)/1 var(--serif);color:var(--yellow);animation:pop 1.2s ease both}
+@keyframes lift{to{transform:translateY(-101%);visibility:hidden}}
+@keyframes pop{0%{transform:scale(.6) rotate(-6deg);opacity:0}50%{transform:scale(1.06);opacity:1}100%{transform:none}}
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:calc(env(safe-area-inset-top,0px) + 14px) 24px 14px;display:flex;justify-content:space-between;align-items:center;transition:.4s}
+nav.s{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.logo{font:900 1.55rem var(--serif);display:flex;gap:8px;align-items:center}
+.logo i{width:30px;height:30px;border-radius:9px;background:var(--green);display:grid;place-items:center;color:var(--yellow);font-style:normal;font-size:1rem;transform:rotate(-8deg)}
+.links{display:flex;gap:28px;font-weight:500;font-size:.95rem}
+.links a{position:relative}.links a:after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:var(--green);transition:.3s}.links a:hover:after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:99px;background:var(--yellow);color:#10301e;font-weight:600;border:0;cursor:pointer;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s;box-shadow:0 8px 24px -8px rgba(255,199,44,.8)}
+.btn:hover{transform:translateY(-3px) scale(1.03)}.btn:after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-20deg);animation:shine 3.2s infinite}
+.btn.g{background:var(--green);color:#fff;box-shadow:0 8px 24px -8px rgba(14,107,57,.8)}
+@keyframes shine{0%,60%{left:-60%}100%{left:140%}}
+/* hero */
+.hero{min-height:100vh;background:radial-gradient(900px 600px at 78% 40%,rgba(255,199,44,.35),transparent 60%),var(--bg);display:flex;align-items:center;padding:120px 0 70px;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.tag{display:inline-flex;gap:8px;align-items:center;padding:8px 16px;border:1px solid var(--line);border-radius:99px;font-size:.85rem;font-weight:500;background:var(--card);margin-bottom:22px;opacity:0;animation:up .8s 1.9s forwards}
+.tag:before{content:"";width:8px;height:8px;border-radius:50%;background:#2fbf6a;animation:pulse 1.6s infinite}
+h1{font-size:clamp(3rem,7.4vw,6.2rem);font-weight:900}
+h1 .c{display:inline-block;opacity:0;transform:translateY(60px) rotate(8deg);animation:letter .8s cubic-bezier(.2,1.3,.4,1) forwards;animation-delay:calc(1.6s + var(--c)*.04s)}
+h1 em{font-style:normal;color:var(--green)}
+:root[data-theme="dark"] h1 em{color:var(--yellow)}
+.lead{font-size:1.15rem;color:var(--muted);max-width:480px;margin:22px 0 34px;opacity:0;animation:up .8s 2.4s forwards}
+.cta{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:up .8s 2.6s forwards}
+.stats{display:flex;gap:40px;margin-top:46px;opacity:0;animation:up .8s 2.8s forwards}
+.stats b{display:block;font:900 2.2rem var(--serif)}.stats span{font-size:.85rem;color:var(--muted)}
+@keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes letter{to{opacity:1;transform:none}}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(47,191,106,0)}0%{box-shadow:0 0 0 0 rgba(47,191,106,.6)}}
+.stage{position:relative;display:grid;place-items:center}
+.stack{display:flex;flex-direction:column-reverse;width:min(100%,470px);position:relative;z-index:2}
+.l{transition:transform .5s cubic-bezier(.3,1.5,.5,1)}.l:not(:first-child){margin-bottom:-13px}
+.l svg{display:block;width:100%;filter:drop-shadow(0 4px 3px rgba(0,0,0,.18))}
+.hero .stack{animation:float 6s ease-in-out 3.6s infinite;transform:rotate(-5deg)}
+.hero .l svg{animation:drop 1s cubic-bezier(.3,1.3,.5,1) both;animation-delay:calc(1.9s + var(--i)*.16s)}
+@keyframes drop{0%{transform:translateY(-420px) rotate(var(--r,8deg));opacity:0}35%{opacity:1}100%{transform:none;opacity:1}}
+@keyframes float{50%{transform:translateY(-16px) rotate(-2deg)}}
+.plate{position:absolute;bottom:-4%;width:70%;height:34px;border-radius:50%;background:rgba(0,0,0,.22);filter:blur(14px);animation:sh 6s ease-in-out 3.6s infinite}
+@keyframes sh{50%{transform:scale(.8);opacity:.6}}
+.bit{position:absolute;z-index:1;transition:transform .3s ease-out;animation:bob 5s ease-in-out infinite}
+@keyframes bob{50%{margin-top:-14px}}
+.badge{position:absolute;right:-2%;top:2%;z-index:3;width:120px;height:120px;border-radius:50%;background:var(--yellow);color:#10301e;display:grid;place-items:center;text-align:center;font:900 .95rem/1.1 var(--serif);transform:rotate(12deg);opacity:0;animation:pop 1s 3.4s forwards}
+.badge:before{content:"";position:absolute;inset:6px;border:2px dashed #10301e;border-radius:50%;animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* marquee */
+.mq{background:var(--green);color:var(--yellow);overflow:hidden;white-space:nowrap;padding:18px 0;transform:rotate(-1.2deg) scale(1.03);margin:10px 0}
+.mq div{display:inline-block;font:800 1.6rem var(--serif);animation:mq 26s linear infinite}
+.mq span{margin:0 26px}
+@keyframes mq{to{transform:translateX(-50%)}}
+/* sections */
+section{padding:110px 0}
+.kick{font-weight:600;color:var(--green);letter-spacing:.18em;text-transform:uppercase;font-size:.8rem;margin-bottom:14px}
+:root[data-theme="dark"] .kick{color:var(--yellow)}
+h2{font-size:clamp(2.2rem,5vw,4rem);margin-bottom:18px}
+.rv{opacity:0;transform:translateY(50px);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0s)}.rv.in{opacity:1;transform:none}
+/* builder */
+.build{background:var(--deep);color:#f6f0dc;border-radius:40px;margin:0 16px;overflow:hidden;position:relative}
+.build .wrap{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+.build .kick{color:var(--yellow)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0}
+.chip{padding:12px 20px;border-radius:99px;border:1.5px solid rgba(246,240,220,.3);background:transparent;color:inherit;font:500 .95rem var(--sans);cursor:pointer;transition:.25s}
+.chip:hover{transform:translateY(-2px);border-color:var(--yellow)}
+.chip[aria-pressed=true]{background:var(--yellow);color:#10301e;border-color:var(--yellow);transform:scale(1.05)}
+.price{font:900 3rem var(--serif);color:var(--yellow)}
+.build .stack{margin:auto;width:min(100%,400px)}.build .l.n svg{animation:none}.build .l.f svg{animation:drop .8s cubic-bezier(.3,1.3,.5,1)}
+/* menu */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:50px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:28px 26px 26px;transition:transform .4s,box-shadow .4s}
+.card:hover{transform:translateY(-10px);box-shadow:0 30px 50px -24px rgba(14,107,57,.45)}
+.card .stack{width:78%;margin:6px auto 22px;transition:transform .5s}
+.card:hover .stack{transform:rotate(-4deg) scale(1.06)}
+.card:hover .l{transform:translateY(calc((var(--i) - 3) * -9px))}
+.card .l svg{opacity:0}.card.in .l svg{animation:drop .9s cubic-bezier(.3,1.3,.5,1) both;animation-delay:calc(.2s + var(--i)*.1s)}
+.card h3{font-size:1.6rem;display:flex;justify-content:space-between;gap:10px}.card h3 span{color:var(--green);font-family:var(--sans);font-weight:600;font-size:1.2rem}
+:root[data-theme="dark"] .card h3 span{color:var(--yellow)}
+.card p{color:var(--muted);font-size:.95rem;margin-top:8px}
+/* find us */
+.find{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:40px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:36px}
+.box li{list-style:none;display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
+.map{position:relative;min-height:320px;overflow:hidden;background:repeating-linear-gradient(0deg,transparent 0 39px,var(--line) 39px 40px),repeating-linear-gradient(90deg,transparent 0 39px,var(--line) 39px 40px),color-mix(in srgb,var(--green) 12%,var(--card));display:grid;place-items:center;text-align:center}
+.pin{width:26px;height:26px;border-radius:50% 50% 50% 0;background:var(--green);transform:rotate(-45deg);margin:0 auto 18px;position:relative;animation:hop 1.6s infinite}
+.pin:before{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--yellow)}
+.pin:after{content:"";position:absolute;left:-30px;top:30px;width:86px;height:86px;border-radius:50%;border:2px solid var(--green);transform:rotate(45deg) scale(.2);opacity:0;animation:ring 1.6s infinite}
+@keyframes hop{50%{transform:rotate(-45deg) translate(6px,-6px)}}
+@keyframes ring{40%{opacity:.7}100%{transform:rotate(45deg) scale(1);opacity:0}}
+footer{padding:50px 0 70px;text-align:center;color:var(--muted);font-size:.9rem}
+@media (max-width:860px){.links{display:none}.hero .wrap,.build .wrap,.find{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.stage{order:-1;margin-top:20px}.badge{width:90px;height:90px;font-size:.75rem}.stats{gap:24px}.build{border-radius:28px;margin:0 8px}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="curtain"><b>Sub Wrap</b></div>
+<nav id="nav">
+  <a class="logo" href="#top"><i>S</i>Sub Wrap</a>
+  <div class="links"><a href="#build">Build Your Sub</a><a href="#menu">Menu</a><a href="#find">Find Us</a></div>
+  <a class="btn" href="#build">Order now</a>
+</nav>
+
+<header class="hero" id="top">
+  <span class="bit" data-d="30" style="left:6%;top:22%"><svg width="70" height="70" viewBox="0 0 70 70"><circle cx="35" cy="35" r="32" fill="#e5412d"/><circle cx="35" cy="35" r="22" fill="#f2705c"/><path d="M35 14v42M14 35h42" stroke="#e5412d" stroke-width="3"/></svg></span>
+  <span class="bit" data-d="-40" style="right:4%;bottom:12%;animation-delay:-2s"><svg width="90" height="70" viewBox="0 0 90 70"><path d="M5 40Q20 0 55 8T85 40Q60 70 5 40Z" fill="#5cb85c"/><path d="M10 40Q45 30 80 40" stroke="#3d9a47" stroke-width="3" fill="none"/></svg></span>
+  <span class="bit" data-d="50" style="left:44%;bottom:6%;animation-delay:-3s"><svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="23" r="21" fill="#6f9b2f"/><circle cx="23" cy="23" r="13" fill="#a6cf55"/></svg></span>
+  <div class="wrap">
+    <div>
+      <span class="tag">Now open · Big Fashion, Podgorica</span>
+      <h1 id="h"></h1>
+      <p class="lead">Freshly baked bread, crisp veggies and bold sauces — stacked to order, right in front of you. Subs and wraps made your way.</p>
+      <div class="cta"><a class="btn g" href="#build">Build your sub →</a><a class="btn" href="#menu">See the menu</a></div>
+      <div class="stats"><div><b data-to="12">0</b><span>Fresh toppings</span></div><div><b data-to="40">0</b><span>Ways to stack it</span></div><div><b data-to="3">0</b><span>Minutes to your hands</span></div></div>
+    </div>
+    <div class="stage">
+      <div class="badge">100%<br>Fresh<br>Daily</div>
+      <div class="stack" id="heroStack"></div>
+      <div class="plate"></div>
+    </div>
+  </div>
+</header>
+
+<div class="mq"><div id="mq"></div></div>
+
+<section id="build" style="padding-top:60px">
+  <div class="build"><div class="wrap" style="padding-top:90px;padding-bottom:90px">
+    <div class="rv">
+      <p class="kick">Build your own</p>
+      <h2>Stack it.<br>Your rules.</h2>
+      <p style="opacity:.8">Tap an ingredient and watch it drop onto your sub.</p>
+      <div class="chips" id="chips"></div>
+      <p style="opacity:.7;font-size:.9rem">Your sub</p>
+      <div class="price" id="price">€3.50</div>
+    </div>
+    <div class="stack" id="buildStack"></div>
+  </div></div>
+</section>
+
+<section id="menu">
+  <div class="wrap">
+    <p class="kick rv">Signature menu</p>
+    <h2 class="rv">Made to be<br>devoured.</h2>
+    <p class="rv" style="color:var(--muted);max-width:520px">Every sub is available as a footlong, a six-inch or a wrap. Hover a card and watch it come apart.</p>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section id="find" style="padding-top:20px">
+  <div class="wrap">
+    <p class="kick rv">Find us</p>
+    <h2 class="rv">Come hungry.</h2>
+    <div class="find">
+      <div class="box rv">
+        <h3 style="font-size:1.8rem;margin-bottom:18px">Sub Wrap</h3>
+        <ul>
+          <li><span>Address</span><b>Big Fashion, Podgorica</b></li>
+          <li><span>Country</span><b>Montenegro</b></li>
+          <li><span>Hours</span><b>Daily 09:00 – 23:00</b></li>
+          <li><span>Phone</span><b>+382 20 000 000</b></li>
+        </ul>
+        <a class="btn g" style="margin-top:26px" href="https://www.google.com/maps/search/Big+Fashion+Podgorica" target="_blank" rel="noopener">Get directions →</a>
+      </div>
+      <div class="box map rv" style="--d:.15s"><div><div class="pin"></div><h3 style="font-size:1.6rem">We’re at Big Fashion</h3><p style="color:var(--muted)">Podgorica, Montenegro</p></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Sub Wrap · Podgorica, Montenegro · Fresh. Stacked. Yours.</footer>
+
+<script>
+const rep=(s,n)=>s.repeat(n);
+const SVG={
+bunB:[40,'<path d="M30 2H330Q352 2 352 20Q352 40 320 40H40Q8 40 8 20Q8 2 30 2Z" fill="#e3a041"/><path d="M30 2H330Q352 2 352 12H8Q8 2 30 2Z" fill="#f2bf6a"/>'],
+bunT:[84,'<path d="M8 78Q2 10 90 5H270Q358 10 352 78Z" fill="#e3a041"/><path d="M40 30Q80 10 150 12" stroke="#f6cf86" stroke-width="7" stroke-linecap="round" fill="none"/><g fill="#fff3d0"><ellipse cx="110" cy="34" rx="6" ry="3" transform="rotate(-30 110 34)"/><ellipse cx="170" cy="22" rx="6" ry="3" transform="rotate(20 170 22)"/><ellipse cx="230" cy="36" rx="6" ry="3" transform="rotate(-10 230 36)"/><ellipse cx="280" cy="52" rx="6" ry="3" transform="rotate(40 280 52)"/><ellipse cx="75" cy="58" rx="6" ry="3" transform="rotate(10 75 58)"/><ellipse cx="195" cy="56" rx="6" ry="3" transform="rotate(-40 195 56)"/></g>'],
+lettuce:[40,'<path d="M12 22q14-22 28 0'+rep('t28 0',11)+'V32q-14 10-28 0'+rep('t-28 0',11)+'Z" fill="#5cb85c"/><path d="M12 22q14-22 28 0'+rep('t28 0',11)+'" stroke="#8be08b" stroke-width="3" fill="none"/>'],
+tomato:[40,[60,120,180,240,300].map(x=>`<ellipse cx="${x}" cy="20" rx="30" ry="12" fill="#e5412d"/><ellipse cx="${x}" cy="19" rx="19" ry="6" fill="#f4806c"/>`).join('')],
+cheese:[40,'<path d="M14 8H346V16L318 36L294 16H70L44 30L26 16H14Z" fill="#ffc72c"/><path d="M14 8H346V13H14Z" fill="#ffdf70"/>'],
+turkey:[40,'<path d="M14 10Q44 0 74 10T134 10T194 10T254 10T314 10T346 10V26Q316 36 286 26T226 26T166 26T106 26T46 26T14 26Z" fill="#e9908e"/><path d="M20 18Q60 10 100 18T180 18T260 18T340 18" stroke="#f6b6b0" stroke-width="3" fill="none"/>'],
+onion:[40,[55,115,175,235,295].map(x=>`<ellipse cx="${x}" cy="20" rx="26" ry="9" fill="none" stroke="#c477c4" stroke-width="3.5"/><ellipse cx="${x}" cy="20" rx="14" ry="4" fill="none" stroke="#e1a8e1" stroke-width="2.5"/>`).join('')],
+pickles:[40,[40,95,150,205,260,315].map(x=>`<ellipse cx="${x}" cy="20" rx="20" ry="9" fill="#6f9b2f"/><ellipse cx="${x}" cy="20" rx="12" ry="4.5" fill="#a9d25a"/>`).join('')],
+sauce:[40,'<path d="M22 18q18-16 36 0'+rep('t36 0',8)+'" stroke="#ff9f1c" stroke-width="9" stroke-linecap="round" fill="none"/>']
+};
+const NAMES={lettuce:'Lettuce',tomato:'Tomato',cheese:'Cheese',turkey:'Turkey',onion:'Red onion',pickles:'Pickles',sauce:'Sunset sauce'};
+function mk(keys,o={}){const all=['bunB',...keys,'bunT'];
+ return all.map((k,i)=>{const [h,p]=SVG[k];const cls=o.fresh===undefined?'':(o.fresh===k?' f':' n');
+ return `<div class="l${cls}" style="--i:${i}"><svg viewBox="0 0 360 ${h}" style="--r:${i%2?9:-9}deg" aria-hidden="true">${p}</svg></div>`}).join('')}
+// hero
+const hs=document.getElementById('heroStack');
+hs.innerHTML=mk(['lettuce','tomato','cheese','turkey','onion','pickles','sauce']);
+// headline
+const h=document.getElementById('h');let c=0;
+[['Fresh.','Stacked.'],['Your way.']].forEach((ws,li)=>{ws.forEach(w=>{const s=document.createElement('span');s.style.display='inline-block';s.style.marginRight='.25em';if(li)s.innerHTML='<em></em>';const t=li?s.firstChild:s;[...w].forEach(ch=>{const k=document.createElement('span');k.className='c';k.style.setProperty('--c',c++);k.textContent=ch;t.appendChild(k)});h.appendChild(s)});if(!li)h.appendChild(document.createElement('br'))});
+// marquee
+const words=['Fresh Baked','Made to Order','Subs','Wraps','Crunchy Veggies','Big Flavor','Podgorica'];
+document.getElementById('mq').innerHTML=rep(words.map(w=>`<span>${w}</span><span>✦</span>`).join(''),2);
+// builder
+const bs=document.getElementById('buildStack'),chips=document.getElementById('chips'),pr=document.getElementById('price');
+let on=['lettuce','tomato','cheese'];const order=Object.keys(NAMES);
+function draw(f){const keys=order.filter(k=>on.includes(k));bs.innerHTML=mk(keys,{fresh:f||'__none'});pr.textContent='€'+(3.5+.4*on.length).toFixed(2);
+ chips.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed',on.includes(b.dataset.k)))}
+chips.innerHTML=order.map(k=>`<button class="chip" data-k="${k}">${NAMES[k]}</button>`).join('');
+chips.onclick=e=>{const k=e.target.dataset.k;if(!k)return;const add=!on.includes(k);on=add?[...on,k]:on.filter(x=>x!==k);draw(add?k:null)};
+const bio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){draw('lettuce');draw('__none');bio.disconnect();bs.innerHTML=mk(order.filter(k=>on.includes(k)));}}),{threshold:.3});
+draw();bio.observe(bs);
+// menu
+const M=[['The Classic',5.2,['turkey','lettuce','tomato','cheese'],'Roast turkey, cheddar, crisp lettuce and juicy tomato.'],
+['Cheese Lover',4.9,['cheese','cheese','tomato','sauce'].filter((v,i,a)=>a.indexOf(v)===i),'Double melted cheddar with sunset sauce.'],
+['Garden Fresh',4.5,['lettuce','tomato','onion','pickles'],'Everything green and crunchy. Pure veggie joy.'],
+['Spicy Fire',5.6,['turkey','onion','pickles','sauce'],'Turkey, red onion, pickles and our hot signature sauce.'],
+['The Big Stack',6.9,['turkey','cheese','lettuce','tomato','onion','pickles','sauce'],'All in. Every topping, stacked to the sky.'],
+['Sunset Wrap',5.4,['turkey','lettuce','cheese','sauce'],'Warm tortilla feel, packed tight with sunset sauce.']];
+document.getElementById('grid').innerHTML=M.map((m,i)=>`<article class="card rv" style="--d:${(i%3)*.12}s"><div class="stack">${mk(m[2])}</div><h3>${m[0]}<span>€${m[1].toFixed(2)}</span></h3><p>${m[3]}</p></article>`).join('');
+// reveal + counters
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.2});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+document.querySelectorAll('[data-to]').forEach(el=>{const to=+el.dataset.to;let n=0;setTimeout(()=>{const t=setInterval(()=>{n+=Math.ceil(to/30);if(n>=to){n=to;clearInterval(t)}el.textContent=n+(to>10?'+':'')},40)},3000)});
+// nav + parallax
+const nav=document.getElementById('nav');addEventListener('scroll',()=>nav.classList.toggle('s',scrollY>40),{passive:true});
+document.querySelector('.hero').addEventListener('mousemove',e=>{const x=(e.clientX/innerWidth-.5),y=(e.clientY/innerHeight-.5);document.querySelectorAll('.bit').forEach(b=>{const d=+b.dataset.d;b.style.transform=`translate(${x*d}px,${y*d}px)`})});
+</script>
+</body>
+</html>
